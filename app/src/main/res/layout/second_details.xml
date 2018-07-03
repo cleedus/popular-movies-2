@@ -32,14 +32,15 @@
                 android:id="@+id/movieRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/releaseActivity1"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="154dp"
+                android:layout_marginTop="90dp"
                 android:gravity="start"
-                android:layout_marginRight="30dp"
-                android:textColor="@color/md_black_1000"
-                android:text=""
-                android:layout_alignRight="@+id/releaseActivity1" />
+                android:layout_alignStart="@id/Movie_rating_Header"
+                android:layout_marginLeft="18dp"
+                android:textColor="@color/md_yellow_700"
+                android:layout_below="@+id/Movie_rating_Header"
+                android:text="7.5/10"
+                android:layout_alignLeft="@+id/Movie_rating_Header" />
 
             <ImageView
                 android:id="@+id/movieImage"
@@ -55,36 +56,65 @@
                 android:id="@+id/movieReleaseDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
+                android:layout_below="@id/release_date_header"
+                android:layout_alignStart="@id/release_date_header"
+                android:layout_marginLeft="10dp"
                 android:layout_alignParentTop="true"
-                android:layout_marginEnd="126dp"
-                android:layout_marginRight="126dp"
-                android:layout_marginTop="55dp"
+                android:layout_marginTop="40dp"
                 android:textColor="@color/md_white_1000"
-                android:text="" />
+                android:text="2015/2/20"
+                android:layout_alignLeft="@id/release_date_header" />
 
             <TextView
-                android:id="@+id/releaseActivity1"
+                android:id="@+id/release_date_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignStart="@+id/imageView2"
-                android:layout_marginTop="25dp"
+                android:layout_marginLeft="200dp"
                 android:textColor="@color/md_black_1000"
-                android:text="@string/release_data"
-                android:layout_alignLeft="@+id/imageView2" />
+                android:text="Realease Date"
+                android:layout_marginTop="20dp"
+                 />
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="93dp"
-                android:layout_height="35dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="117dp"
-                app:srcCompat="@drawable/rating"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="117dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:id="@+id/Movie_rating_Header"
+                android:text="Movie Rating"
+                android:textColor="@color/md_black_1000"
+                android:layout_below="@id/movieReleaseDate"
+                android:layout_alignStart="@id/release_date_header"
+                android:layout_alignLeft="@id/movieReleaseDate" />
+
+
+          <TextView
+              android:id="@+id/mark_as_favorites"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/movieRating"
+              android:layout_alignStart="@id/release_date_header"
+              android:layout_marginTop="6dp"
+              android:text="Mark as Favorite"
+              android:textColor="@color/md_black_1000"
+              android:layout_alignLeft="@id/Movie_rating_Header" />
+
+
+
+            <CheckBox
+                android:id="@+id/checkbox_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignStart="@+id/mark_as_favorites"
+                android:layout_below="@id/mark_as_favorites"
+                android:button="@null"
+                android:background="@drawable/star"
+                android:layout_alignLeft="@+id/mark_as_favorites"
+                android:layout_marginLeft="25dp"
+                 />
+
+
+
 
         </RelativeLayout>
 
@@ -96,7 +126,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
             android:text="@string/overview_header"
@@ -128,7 +157,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
+                android:paddingLeft="20dp"
                 android:paddingTop="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/trailers_header"

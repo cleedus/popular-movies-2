@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
     public interface AsyncResultsListener {
-        public void onSuccessfulResults(ArrayList<String> arrayList);
+        public void onSuccessfulResults(ArrayList<MovieTrailer> arrayList);
     }
 
 

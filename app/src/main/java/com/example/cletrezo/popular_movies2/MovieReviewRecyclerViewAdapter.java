@@ -11,11 +11,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class MovieReviewRecyclerViewAdapter extends RecyclerView.Adapter<MovieReviewRecyclerViewAdapter.CustomViewHolder> {
-    private ArrayList<MovieExtension> arrayList;
+    private ArrayList<MovieReviews> arrayList;
     private Context context;
     private LayoutInflater inflater;
 
-    public MovieReviewRecyclerViewAdapter(Context context, ArrayList<MovieExtension>arrayList) {
+    public MovieReviewRecyclerViewAdapter(Context context, ArrayList<MovieReviews>arrayList) {
         this.arrayList= arrayList;
         this.context = context;
         inflater= LayoutInflater.from(context);

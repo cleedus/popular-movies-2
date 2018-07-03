@@ -1,6 +1,7 @@
 package com.example.cletrezo.popular_movies2;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -86,19 +88,12 @@ public class MainActivity extends AppCompatActivity {
                             movieVideoPath = "https://api.themoviedb.org/3/movie/" + movieIdOfMovieInCurrentlyClicked+ "/videos?api_key=" + MovieDataSource.API_KEY;
                             Log.v("movieId here :", String.valueOf(movieIdOfMovieInCurrentlyClicked));
                             //movieReviewPath = "https://api.themoviedb.org/3/movie/" + movieIdOfMovieInCurrentlyClicked + "/reviews?api_key=" + MovieDataSource.API_KEY;
-                            new MovieReviewAsyncTask(new AsyncResultsListener() {
-                                @Override
-                                public void onSuccessfulResults(ArrayList<String> arrayList) {
-                                    Log.v("Videolist interfa:", String.valueOf(arrayList.size()));
-                                    videokeys =arrayList;
+
                                     Intent intent = new Intent(MainActivity.this, MovieDetails.class);
                                     //When clicked, the position of the current movie
                                     Movie movieIncurrentClickedPosition = movies.get(moviePosition);
                                     Log.v("moviePosition:",String.valueOf(moviePosition));
                                     intent.putExtra(MOVIE_IN_CURRENT_CLICKED_POSITION, movieIncurrentClickedPosition);
-                                    Log.v("Videolist keys:", String.valueOf(videokeys.size()));
-                                    //Log.v("Videolist intent:", String.valueOf(.size()));
-                                    intent.putStringArrayListExtra("data",arrayList );
 
                                     startActivity(intent);
 
@@ -106,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
 
                                 }
-                            }).execute(movieVideoPath);
 
 
 
@@ -114,16 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-                            // call method and asyntask and return objects
-                            // pass two urls: video and reviewsaaa
-                            // call a method that takes movieId
-
-
-
-
-
-                        }
                     });
                 }
 
@@ -142,155 +126,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
-
-    public static class  MovieReviewAsyncTask extends AsyncTask<String, Void, String> {
-
-
-        //private String id="";
-        //private String REQUEST_VID_ASYNCTASK_CODECODE = "1";
-        //private String REQUEST_REVIEW_ASYNCTASK_CODE = "2";
-        MovieExtension movieExtension;
-        private   AsyncResultsListener asyncResultsListener;
-
-        public MovieReviewAsyncTask(AsyncResultsListener asyncResultsListener){
-            this.asyncResultsListener= asyncResultsListener;
-        }
-
-
-
-
-        @Override
-        protected String doInBackground(String...params) {
-            //id=params[1];
-
-
-            StringBuilder stringBuilder = new StringBuilder();
-            HttpURLConnection httpURLConnection = null;
-            BufferedReader bufferedReader = null;
-            InputStream inputStream;
-
-            try {
-                URL url = new URL(params[0]);
-                httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("GET");
-                httpURLConnection.connect();
-                int status = httpURLConnection.getResponseCode();
-                if (status != HttpURLConnection.HTTP_OK) {
-                    inputStream = httpURLConnection.getErrorStream();
-                } else {
-                    inputStream = httpURLConnection.getInputStream();
-                }
-
-                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-                if (stringBuilder.length() == 0) {
-                    return null;
-                }
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (httpURLConnection != null) {
-                    httpURLConnection.disconnect();
-                }
-                if (bufferedReader != null) {
-                    try {
-                        bufferedReader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            return stringBuilder.toString();
-
-        }
-
-        @Override
-        protected void onPostExecute(String result ) {
-            // ArrayList<String>movieReviewList = new ArrayList<>();
-            // String reviewAuthor;
-            //String reviewContent;
-            //if(id.equals(REQUEST_VID_ASYNCTASK_CODECODE)){
-            //Log.v("THIS IS VIDEO JSON", result);
-            //Log.v("resultSize:",String.valueOf(result.length()) );
-            ArrayList<String> movieVideoList = new ArrayList<>();
-
-            try {
-                JSONObject entireJson = new JSONObject(result);
-                JSONArray resultJsonArray = entireJson.getJSONArray("results");
-                JsonObject object;
-                if(resultJsonArray.length()>0){
-                    for(int i= 0; i<resultJsonArray.length(); i++){
-
-                        movieVideoList.add(resultJsonArray.getJSONObject(i).optString("key"));
-                    }
-
-                }
-                if(movieVideoList.size()>0) {
-                    for (int i = 0; i < movieVideoList.size(); i++) {
-                        Log.v("THE VIDEO KEYS ARE:", movieVideoList.get(i));
-                    }
-                }else {
-                    Log.v("Sorry","No video links for this movie" );
-                }
-
-                Log.v("Videolist onpostsize", String.valueOf(movieVideoList.size()));
-            } catch (JSONException e) {
-
-                e.printStackTrace();
-            }
-            asyncResultsListener.onSuccessfulResults(movieVideoList);
-            //}
-            /*else if(id.equals(REQUEST_REVIEW_ASYNCTASK_CODE)){
-                //Log.v("THIS IS REVIEW JSON", result);
-                try {
-                    JSONObject entireJson = new JSONObject(result);
-                    JSONArray resultJsonArray = entireJson.getJSONArray("results");
-                    if(resultJsonArray.length()>0){ // check if there are reviews
-                        for(int i= 0; i<resultJsonArray.length(); i++){
-
-                            reviewAuthor=resultJsonArray.getJSONObject(i).optString("author");
-                            reviewContent=(resultJsonArray.getJSONObject(i).optString("content"));
-                            movieReviewList.add(reviewAuthor);// will be used to know the number of reviews in the list
-                            movieReviewsMap.put(reviewAuthor, reviewContent); // map authors to their reviews
-                        }
-
-                    }
-                    if(movieReviewList.size()>0) {// check if there are reviews in the list
-
-                        for(String key: movieReviewsMap.keySet()) {
-                            Log.v("Reviews authors are:", key.toUpperCase() + ":" + movieReviewsMap.get(key));
-                        }
-                    }else {
-                        Log.v("Sorry","No reviews for this movie" );
-                    }
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-*/
-
-
-
-
-        }
-    }
-
-
-
-
-
 
 
 
