@@ -8,7 +8,7 @@
         android:title="@string/top_rated"
         app:showAsAction="never"/>
     <item android:id="@+id/favorites"
-        android:title="My Favorites"
+        android:title="@string/my_favorites"
         app:showAsAction="never"/>
 
 

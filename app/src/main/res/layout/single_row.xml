@@ -9,6 +9,7 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:contentDescription="@string/movie_image"
-        android:layout_height="300dp"/>
+        android:layout_height="340dp"
+        android:scaleType="centerCrop"/>
 
 </LinearLayout>

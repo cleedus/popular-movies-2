@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class MovieDataSource {
     private int count = 1;
-    private final static String MOVIE_ID="id";
+    private final static String MOVIE_ID = "id";
     private final static String MOVIE_RATING = "vote_average";
     private final static String MOVIE_TITLE = "original_title";
     private final static String MOVIE_POSTERPATH = "poster_path";
@@ -24,7 +24,7 @@ public class MovieDataSource {
     private final static String MOVIE_RELEASEDATE = "release_date";
     public static final String API_KEY = BuildConfig.API_KEY;
 
-    private RequestQueue mRequestQueue = VolleySingleton.getmInstance().getmRequestQueue();
+    private RequestQueue RequestQueue = VolleySingleton.getInstance().getRequestQueue();
 
     public void movieArrayList(String URL, final int tag, final OnResponseListener<ArrayList<Movie>> listener) {
         final ArrayList<Movie> listOfMovies = new ArrayList<>();
@@ -57,7 +57,7 @@ public class MovieDataSource {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.i("data call listener :",response.toString());
+                        Log.i("data call listener :", response.toString());
 
                         Log.i("called", String.valueOf(count++));
                         listener.onSuccess(tag, listOfMovies);
@@ -72,11 +72,10 @@ public class MovieDataSource {
                     }
                 });
 
-        mRequestQueue.add(jsonObjectRequest);
+        RequestQueue.add(jsonObjectRequest);
 
 
     }
-
 
 
 }

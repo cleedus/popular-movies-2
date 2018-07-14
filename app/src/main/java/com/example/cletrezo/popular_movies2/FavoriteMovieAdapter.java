@@ -13,25 +13,25 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class FavoriteMovieAdapter extends BaseAdapter {
-   private Context context;
-   private ArrayList<FavoriteMovies>favoriteMovies;
+    private Context context;
+    private static ArrayList<FavoriteMovies> favoriteMovies;
 
-    public FavoriteMovieAdapter(Context context, ArrayList<FavoriteMovies> favoriteMovies ) {
+    public FavoriteMovieAdapter(Context context) {
         this.context = context;
-        this.favoriteMovies = favoriteMovies;
+        //this.favoriteMovies = favoriteMovies;
     }
 
-    /*void setWords(ArrayList<FavoriteMovies> movies){
-        favoriteMovies=movies;
+    void setWords(ArrayList<FavoriteMovies> movies) {
+        favoriteMovies = movies;
         notifyDataSetChanged();
-    }*/
+    }
 
     @Override
     public int getCount() {
-        if(favoriteMovies !=null) {
+        if (favoriteMovies != null) {
             return favoriteMovies.size();
         }
-        Toast.makeText(context,"no movies added yet" ,Toast.LENGTH_SHORT ).show();
+        Toast.makeText(context, "no movies added yet", Toast.LENGTH_SHORT).show();
         return 0;
 
     }
@@ -47,7 +47,7 @@ public class FavoriteMovieAdapter extends BaseAdapter {
     }
 
 
-    class ViewHolder2{
+    class ViewHolder2 {
         ImageView imageView;
 
         ViewHolder2(View view) {
@@ -67,7 +67,7 @@ public class FavoriteMovieAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.single_row, parent, false);
             viewHolder2 = new ViewHolder2(convertView);
             convertView.setTag(viewHolder2);
-        }else {
+        } else {
             viewHolder2 = (ViewHolder2) convertView.getTag();
         }
         Picasso.with(context)
@@ -80,7 +80,6 @@ public class FavoriteMovieAdapter extends BaseAdapter {
 
 
         return convertView;
-
 
 
     }

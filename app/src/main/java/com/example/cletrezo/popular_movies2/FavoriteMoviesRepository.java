@@ -15,30 +15,29 @@ public class FavoriteMoviesRepository {
     FavoriteMoviesRepository(Application application) {
         FavoriteMoviesDatabase database = FavoriteMoviesDatabase.getDatabase(application);
         repositoryFavoriteMoviesDao = database.databaseFavoriteMovieDao();
-         allfavoriteMoviesInRepoFromDatabase= repositoryFavoriteMoviesDao.getAllFavoriteMovies();
+        allfavoriteMoviesInRepoFromDatabase = repositoryFavoriteMoviesDao.getAllFavoriteMovies();
 
     }
 
 
-    LiveData<List<FavoriteMovies>> getAllfavoriteMovieInTheDatabase(){
+    LiveData<List<FavoriteMovies>> getAllfavoriteMovieInTheDatabase() {
         return allfavoriteMoviesInRepoFromDatabase;
     }
 
-    public void insertFavoriteMovieIntoDatabase(FavoriteMovies favoriteMovies){
+    public void insertFavoriteMovieIntoDatabase(FavoriteMovies favoriteMovies) {
         new insertMoviesIntoDatabaseAsynTask(repositoryFavoriteMoviesDao).execute(favoriteMovies);
 
     }
 
 
-
     //insert movies using background thread
-    private  static  class insertMoviesIntoDatabaseAsynTask extends AsyncTask<FavoriteMovies, Void, Void>{
+    private static class insertMoviesIntoDatabaseAsynTask extends AsyncTask<FavoriteMovies, Void, Void> {
 
         private FavoriteMoviesDao insertAsyncTaskfavoriteMoviesDao;
 
 
-        insertMoviesIntoDatabaseAsynTask(FavoriteMoviesDao favoriteMoviesDao){
-            insertAsyncTaskfavoriteMoviesDao=favoriteMoviesDao;
+        insertMoviesIntoDatabaseAsynTask(FavoriteMoviesDao favoriteMoviesDao) {
+            insertAsyncTaskfavoriteMoviesDao = favoriteMoviesDao;
         }
 
         @Override
@@ -49,11 +48,11 @@ public class FavoriteMoviesRepository {
         }
     }
 
-    public void deleteAMovieInTheDatabase(FavoriteMovies favoriteMovies){
+    public void deleteAMovieInTheDatabase(FavoriteMovies favoriteMovies) {
         new deleteMovieAsyncTask(repositoryFavoriteMoviesDao).execute(favoriteMovies);
     }
 
-    private static class deleteMovieAsyncTask extends AsyncTask<FavoriteMovies,Void,Void>{
+    private static class deleteMovieAsyncTask extends AsyncTask<FavoriteMovies, Void, Void> {
         private FavoriteMoviesDao deleteAsyncTaskfavoriteMoviesDao;
 
         public deleteMovieAsyncTask(FavoriteMoviesDao favoriteMoviesDao) {

@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,24 +42,29 @@ import static android.widget.Toast.LENGTH_SHORT;
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_POPULAR = 1;
     public static final int REQUEST_CODE_TOP_RATED = 2;
-    String topRatedMovieUrl = "https://api.themoviedb.org/3/movie/top_rated?api_key=";
-    String popularMoviesUrl = "https://api.themoviedb.org/3/movie/popular?api_key=";
-    final static String MOVIE_IN_CURRENT_CLICKED_POSITION = "theMovieInCurrentClickedPosition";
-    int counter = 0;
-    int movieIdOfMovieInCurrentlyClicked;
-    public ArrayList<Movie> popularMoviesList = new ArrayList<>();
+    public String topRatedMovieUrl = "https://api.themoviedb.org/3/movie/top_rated?api_key=";
+    public String popularMoviesUrl = "https://api.themoviedb.org/3/movie/popular?api_key=";
+    public final static String MOVIE_IN_CURRENT_CLICKED_POSITION = "theMovieInCurrentClickedPosition";
+    private int counter = 0;
+    private int movieIdOfMovieInCurrentlyClicked;
+    private ArrayList<Movie> popularMoviesList = new ArrayList<>();
     private ArrayList<Movie> topRatedMoviesList = new ArrayList<>();
     private ArrayList<Movie> movies = new ArrayList<>();
-    int moviePosition;
+    private int moviePosition;
     public static FavoriteMoviesViewModel favoriteMoviesViewModel;
-    ArrayList<FavoriteMovies> favoriteMoviesArrayList = new ArrayList<>();
-    static Movie movieIncurrentClickedPosition;
-    FavoriteMovieAdapter favoriteMovieAdapter;
+    private static Movie movieIncurrentClickedPosition;
+    FavoriteMovieAdapter favoriteMovieAdapter = new FavoriteMovieAdapter(this);
+    GridView gridView;
+
+
+    private static final String GRID_STATE = "gridState";
+    private Parcelable gridState = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final GridView gridView = findViewById(R.id.gridview);
+        gridView = findViewById(R.id.gridview);
         MovieDataSource object = new MovieDataSource();
 
 
@@ -80,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     counter++; // tracking Onsuccess call by Listener
                 }
 
-                Collections.shuffle(movies); // popular + top rated movies----shuffle them. This is default display to the user when they first launch the app
+                //Collections.shuffle(movies); // popular + top rated movies----shuffle them. This is default display to the user when they first launch the app
                 Log.i("counter=", String.valueOf(counter));
                 if (counter == 2) { // Do not call the adapter and pass movies for display until background process finishes and movie contains both pop and toprated
                     Log.i("num of movies passed:", String.valueOf(movies.size()));
@@ -94,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                             //When clicked, the position of the current movie
                             Movie movieIncurrentClickedPosition = movies.get(moviePosition);
                             intent.putExtra(MOVIE_IN_CURRENT_CLICKED_POSITION, movieIncurrentClickedPosition);
-                            intent.putExtra("isFromMovies",true );
+                            intent.putExtra("isFromMovies", true);
                             startActivity(intent);
 
                         }
@@ -119,31 +126,13 @@ public class MainActivity extends AppCompatActivity {
         favoriteMoviesViewModel.getAllFavoriteMovieInViewModelFromRepo().observe(this, new Observer<List<FavoriteMovies>>() {
             @Override
             public void onChanged(@Nullable List<FavoriteMovies> favoriteMovies) {
-                favoriteMoviesArrayList= (ArrayList<FavoriteMovies>) favoriteMovies;
-                favoriteMovieAdapter = new FavoriteMovieAdapter(MainActivity.this, favoriteMoviesArrayList);
-               // favoriteMovieAdapter.notifyDataSetChanged();
-
-
-
-
+                //favoriteMoviesArrayList= (ArrayList<FavoriteMovies>) favoriteMovies;
+                favoriteMovieAdapter.setWords((ArrayList<FavoriteMovies>) favoriteMovies);
             }
         });
 
 
-
-
-
     }
-
-    /*@Override
-    public  void onResume(){
-        super.onResume();
-        final GridView gridView = findViewById(R.id.gridview);
-        gridView.invalidate();
-
-    }
-
-*/
 
 
     @Override
@@ -163,11 +152,10 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     //Toast.makeText(MainActivity.this, "" + "popularity, number:" + position, LENGTH_SHORT).show();
-
                     Intent intent = new Intent(MainActivity.this, MovieDetails.class);
                     Movie movieIncurrentClickedPosition = popularMoviesList.get(position);
                     intent.putExtra(MOVIE_IN_CURRENT_CLICKED_POSITION, movieIncurrentClickedPosition);
-                    intent.putExtra("isFromMovies",true );
+                    intent.putExtra("isFromMovies", true);
                     startActivity(intent);
                 }
             });
@@ -184,33 +172,30 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, MovieDetails.class);
                     movieIncurrentClickedPosition = topRatedMoviesList.get(position);
                     intent.putExtra(MOVIE_IN_CURRENT_CLICKED_POSITION, movieIncurrentClickedPosition);
-                    intent.putExtra("isFromMovies",true );
+                    intent.putExtra("isFromMovies", true);
                     startActivity(intent);
 
                 }
             });
 
-        }else if(item.getItemId()==R.id.favorites){
-           GridView gridView = findViewById(R.id.gridview);
-           getSupportActionBar().setTitle("My Favorite Movies");
-           if(favoriteMoviesArrayList.isEmpty()){
-               Toast.makeText(this,"no movie added yet" ,Toast.LENGTH_SHORT ).show();
-           }
-           gridView.setAdapter(favoriteMovieAdapter);
-           gridView.invalidate();
-           gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-               @Override
-               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                   Intent intent = new Intent(MainActivity.this, MovieDetails.class);
-                   FavoriteMovies currentFavoriteMovieClicked = favoriteMoviesArrayList.get(position);
-                   intent.putExtra(MOVIE_IN_CURRENT_CLICKED_POSITION, currentFavoriteMovieClicked);
-                   intent.putExtra("isFromMovies",false );
-                   startActivity(intent);
+        } else if (item.getItemId() == R.id.favorites) {
+            GridView gridView = findViewById(R.id.gridview);
+            getSupportActionBar().setTitle("My Favorite Movies");
+            if (favoriteMovieAdapter.getCount() < 1) {
+                Toast.makeText(this, "No movies added yet", LENGTH_SHORT).show();
+            }
+            gridView.setAdapter(favoriteMovieAdapter);
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(MainActivity.this, MovieDetails.class);
+                    FavoriteMovies currentFavoriteMovieClicked = (FavoriteMovies) favoriteMovieAdapter.getItem(position);
+                    intent.putExtra(MOVIE_IN_CURRENT_CLICKED_POSITION, currentFavoriteMovieClicked);
+                    intent.putExtra("isFromMovies", false);
+                    startActivity(intent);
 
-               }
-           });
-
-
+                }
+            });
 
 
         } else {

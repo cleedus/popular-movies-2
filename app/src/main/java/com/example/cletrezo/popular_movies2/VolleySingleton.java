@@ -4,24 +4,24 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
 public class VolleySingleton {
-    private static VolleySingleton mInstance;
-    private RequestQueue mRequestQueue;
+    private static VolleySingleton Instance;
+    private RequestQueue RequestQueue;
 
     private VolleySingleton(){
-        mRequestQueue = Volley.newRequestQueue(MyApplication.getAppContext());
+        RequestQueue = Volley.newRequestQueue(MyApplication.getAppContext());
     }
 
 
-    public  static VolleySingleton getmInstance(){
-        if(mInstance==null){
-            mInstance = new VolleySingleton();
+    public  static VolleySingleton getInstance(){
+        if(Instance==null){
+            Instance = new VolleySingleton();
         }
-        return mInstance;
+        return Instance;
 
     }
 
-    public RequestQueue getmRequestQueue() {
-        return mRequestQueue;
+    public RequestQueue getRequestQueue() {
+        return RequestQueue;
     }
 
 }

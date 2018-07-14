@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 public class FavoriteMovies implements Parcelable {
     @PrimaryKey
     @NonNull
-    private  int id;
+    private int id;
 
     private double movieRating;
 
@@ -26,7 +26,7 @@ public class FavoriteMovies implements Parcelable {
     @Ignore
     final String path1 = "http://image.tmdb.org/t/p";
     @Ignore
-    final  String path2 = "w185";
+    final String path2 = "w185";
 
     public FavoriteMovies(@NonNull int id, double movieRating, String movieTitle, String movieImagePath, String movieDescripton, String movieReleaseDate) {
         this.id = id;
@@ -67,7 +67,7 @@ public class FavoriteMovies implements Parcelable {
     }
 
     public String getMovieImagePath() {
-       // return "https://image.tmdb.org/t/p/w185" + movieImagePath; // movie path;
+        // return "https://image.tmdb.org/t/p/w185" + movieImagePath; // movie path;
         return movieImagePath;
     }
 

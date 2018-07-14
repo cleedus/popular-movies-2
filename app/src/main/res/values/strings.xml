@@ -10,5 +10,6 @@
     <string name="overview_header">Overview</string>
     <string name="trailers_header">Trailers</string>
     <string name="reviews_header">Reviews</string>
+    <string name="my_favorites">My Favorites</string>
 
 </resources>

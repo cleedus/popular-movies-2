@@ -2,6 +2,7 @@ package com.example.cletrezo.popular_movies2;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -63,8 +65,7 @@ public class MovieDetails extends AppCompatActivity {
         getSupportActionBar().setTitle("Movie Details");
 
 
-        if(getIntent().getExtras().get("isFromMovies").equals(true))
-        {
+        if (getIntent().getExtras().get("isFromMovies").equals(true)) {
             //Toast.makeText(this,"match found" ,Toast.LENGTH_SHORT ).show();
 
             // get movie id of the movie that was just passed
@@ -73,7 +74,7 @@ public class MovieDetails extends AppCompatActivity {
 
             final String key = Integer.toString(movie.getMovieid());
 
-           // final FavoriteMovies favoriteMovies = new FavoriteMovies(movie.getMovieid(),movie.getMovieRating(),movie.getMovieTitle(),movie.getMovieImagePath(),movie.getMovieDescripton(),movie.getMovieReleaseDate());
+            // final FavoriteMovies favoriteMovies = new FavoriteMovies(movie.getMovieid(),movie.getMovieRating(),movie.getMovieTitle(),movie.getMovieImagePath(),movie.getMovieDescripton(),movie.getMovieReleaseDate());
 
             //get path for trailer and reviews
             String movieVideoPath = "https://api.themoviedb.org/3/movie/" + movieIdOfMovieInCurrentlyClicked + "/videos?api_key=" + MovieDataSource.API_KEY;
@@ -103,7 +104,6 @@ public class MovieDetails extends AppCompatActivity {
             TextView movieReleaseDateView = findViewById(R.id.movieReleaseDate);
             TextView movieRatingView = findViewById(R.id.movieRating);
             TextView movieDescriptionView = findViewById(R.id.movieDescription);
-
 
 
             Picasso.with(this)
@@ -119,8 +119,6 @@ public class MovieDetails extends AppCompatActivity {
             movieDescriptionView.setText(movie.getMovieDescripton());
 
 
-
-
             sharedPreferences = getSharedPreferences(SHARED_PF_NAME, Context.MODE_PRIVATE);
             checkBox = findViewById(R.id.checkbox_button);
             // does the key of this movie exists inside the SP? If yes,
@@ -136,7 +134,7 @@ public class MovieDetails extends AppCompatActivity {
 
                     if (isChecked) {
                         sharedPreferences.edit().putBoolean(key, true).apply();// save movie's state state to SP if marked as favorite
-                        FavoriteMovies favoriteMovies = new FavoriteMovies(movie.getMovieid(),movie.getMovieRating(),movie.getMovieTitle(),movie.getMovieImagePath(),movie.getMovieDescripton(),movie.getMovieReleaseDate());
+                        FavoriteMovies favoriteMovies = new FavoriteMovies(movie.getMovieid(), movie.getMovieRating(), movie.getMovieTitle(), movie.getMovieImagePath(), movie.getMovieDescripton(), movie.getMovieReleaseDate());
 
 
                         Toast.makeText(getApplicationContext(), "added to favorites",
@@ -147,7 +145,7 @@ public class MovieDetails extends AppCompatActivity {
                     } else {
                         //sharedPreferences.edit().putBoolean(key, false).apply();
                         sharedPreferences.edit().remove(key).apply();// remove from SP if unchecked
-                        final FavoriteMovies favoriteMovies = new FavoriteMovies(movie.getMovieid(),movie.getMovieRating(),movie.getMovieTitle(),movie.getMovieImagePath(),movie.getMovieDescripton(),movie.getMovieReleaseDate());
+                        final FavoriteMovies favoriteMovies = new FavoriteMovies(movie.getMovieid(), movie.getMovieRating(), movie.getMovieTitle(), movie.getMovieImagePath(), movie.getMovieDescripton(), movie.getMovieReleaseDate());
 
                         Toast.makeText(getApplicationContext(), "removed from favorites",
                                 Toast.LENGTH_SHORT).show();
@@ -155,15 +153,13 @@ public class MovieDetails extends AppCompatActivity {
                     }
 
 
-
                 }
             });
 
 
-        }
-        else {
+        } else {
 
-            Toast.makeText(this,"this is favorite movie detail" ,Toast.LENGTH_SHORT ).show();
+
             favoriteMovies1 = getIntent().getParcelableExtra(MainActivity.MOVIE_IN_CURRENT_CLICKED_POSITION);
             final int movieIdOfMovieInCurrentlyClicked = favoriteMovies1.getId();
 
@@ -171,7 +167,7 @@ public class MovieDetails extends AppCompatActivity {
 
             final String key = Integer.toString(favoriteMovies1.getId());
 
-           // final FavoriteMovies favoriteMovies = new FavoriteMovies(movie.getMovieid(),movie.getMovieRating(),movie.getMovieTitle(),movie.getMovieImagePath(),movie.getMovieDescripton(),movie.getMovieReleaseDate());
+            // final FavoriteMovies favoriteMovies = new FavoriteMovies(movie.getMovieid(),movie.getMovieRating(),movie.getMovieTitle(),movie.getMovieImagePath(),movie.getMovieDescripton(),movie.getMovieReleaseDate());
 
             //get path for trailer and reviews
             String movieVideoPath = "https://api.themoviedb.org/3/movie/" + movieIdOfMovieInCurrentlyClicked + "/videos?api_key=" + MovieDataSource.API_KEY;
@@ -203,7 +199,6 @@ public class MovieDetails extends AppCompatActivity {
             TextView movieDescriptionView = findViewById(R.id.movieDescription);
 
 
-
             Picasso.with(this)
                     .load(favoriteMovies1.getMovieImagePath())
                     .fit()
@@ -215,8 +210,6 @@ public class MovieDetails extends AppCompatActivity {
             movieReleaseDateView.setText(favoriteMovies1.getMovieReleaseDate());
             movieRatingView.setText(String.format("%s%s", String.valueOf(favoriteMovies1.getMovieRating()), ratingDenominator));
             movieDescriptionView.setText(favoriteMovies1.getMovieDescripton());
-
-
 
 
             sharedPreferences = getSharedPreferences(SHARED_PF_NAME, Context.MODE_PRIVATE);
@@ -234,7 +227,7 @@ public class MovieDetails extends AppCompatActivity {
 
                     if (isChecked) {
                         sharedPreferences.edit().putBoolean(key, true).apply();// save movie's state state to SP if marked as favorite
-                       FavoriteMovies favoriteMovies = new FavoriteMovies(favoriteMovies1.getId(),favoriteMovies1.getMovieRating(),favoriteMovies1.getMovieTitle(),favoriteMovies1.getMovieImagePath(),favoriteMovies1.getMovieDescripton(),favoriteMovies1.getMovieReleaseDate());
+                        FavoriteMovies favoriteMovies = new FavoriteMovies(favoriteMovies1.getId(), favoriteMovies1.getMovieRating(), favoriteMovies1.getMovieTitle(), favoriteMovies1.getMovieImagePath(), favoriteMovies1.getMovieDescripton(), favoriteMovies1.getMovieReleaseDate());
 
 
                         Toast.makeText(getApplicationContext(), "added to favorites",
@@ -242,17 +235,15 @@ public class MovieDetails extends AppCompatActivity {
                         MainActivity.favoriteMoviesViewModel.insertMoviesIntoDatabaseVmodel(favoriteMovies);
 
 
-
                     } else {
                         //sharedPreferences.edit().putBoolean(key, false).apply();
                         sharedPreferences.edit().remove(key).apply();// remove from SP if unchecked
-                        FavoriteMovies favoriteMovies = new FavoriteMovies(favoriteMovies1.getId(),favoriteMovies1.getMovieRating(),favoriteMovies1.getMovieTitle(),favoriteMovies1.getMovieImagePath(),favoriteMovies1.getMovieDescripton(),favoriteMovies1.getMovieReleaseDate());
+                        FavoriteMovies favoriteMovies = new FavoriteMovies(favoriteMovies1.getId(), favoriteMovies1.getMovieRating(), favoriteMovies1.getMovieTitle(), favoriteMovies1.getMovieImagePath(), favoriteMovies1.getMovieDescripton(), favoriteMovies1.getMovieReleaseDate());
 
                         Toast.makeText(getApplicationContext(), "removed from favorites",
                                 Toast.LENGTH_SHORT).show();
                         MainActivity.favoriteMoviesViewModel.unFavoriteAMovie(favoriteMovies);
                     }
-
 
 
                 }
@@ -263,6 +254,16 @@ public class MovieDetails extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent a = new Intent(this, MainActivity.class);
+            a.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(a);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 
     public class MovieTrailerAsyncTask extends AsyncTask<String, Void, Integer> {
