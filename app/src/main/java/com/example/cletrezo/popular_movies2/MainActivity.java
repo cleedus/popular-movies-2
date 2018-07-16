@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -57,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
     GridView gridView;
 
 
-    private static final String GRID_STATE = "gridState";
-    private Parcelable gridState = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -157,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra(MOVIE_IN_CURRENT_CLICKED_POSITION, movieIncurrentClickedPosition);
                     intent.putExtra("isFromMovies", true);
                     startActivity(intent);
+
                 }
             });
 
@@ -174,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra(MOVIE_IN_CURRENT_CLICKED_POSITION, movieIncurrentClickedPosition);
                     intent.putExtra("isFromMovies", true);
                     startActivity(intent);
+
 
                 }
             });
@@ -194,18 +197,21 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("isFromMovies", false);
                     startActivity(intent);
 
+
                 }
             });
 
 
+
         } else {
+            return true;
 
-
-            return super.onOptionsItemSelected(item);
         }
-        return true;
+        return super.onOptionsItemSelected(item);
+
 
     }
+
 
 
 }
