@@ -1,6 +1,13 @@
 # popular-movies-2
-Add moviedb api key to gradle.properties
 
-SCREENSHOT
+## Used Libraries
+Volley
+Picasso
+Glide
+
+## What is Required to Use This App?
+Add your moviedb api key to gradle.properties
+
+## SCREENSHOT
 
 ![](https://thumbs.gfycat.com/NegligibleDeliriousBarnacle-size_restricted.gif)
