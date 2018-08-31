@@ -9,7 +9,7 @@ Popular Movies is an App that displays the most popular movies and it gets its d
 
 
 ## What is Required to Use This App?
-Add your moviedb api key to gradle.properties
+Add your themoviedb api key to gradle.properties
 
 ## SCREENSHOT
 
