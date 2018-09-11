@@ -1,7 +1,7 @@
 # popular-movies-2
 <P> Popular Movies is an App that displays a gridview of the most popular movies on the web. It gets its data from themoviedb.org and provides a customizable interface that enables users to store their favorite movies in SQLite database.</P>
 
-## Used Libraries
+## Libraries Used
 * Volley
 * Picasso
 * Glide
