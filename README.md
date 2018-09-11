@@ -1,5 +1,5 @@
 # popular-movies-2
-Popular Movies is an App that displays the most popular movies and it gets its data from themoviedb.org. It provides a customizable interface that enables users to store their favorite movies in SQLite database through Room Persistence Library.
+Popular Movies is an App that displays a gridview of the most popular movies on the web. It gets its data from themoviedb.org and provides a customizable interface that enables users to store their favorite movies in SQLite database.
 
 ## Used Libraries
 * Volley
